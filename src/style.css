@@ -1,0 +1,607 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0;
+  --background: #050806;
+  --foreground: #8dff9a;
+  --card: #07110a;
+  --card-foreground: #b9ffc1;
+  --popover: #07110a;
+  --popover-foreground: #b9ffc1;
+  --primary: #8dff9a;
+  --primary-foreground: #031005;
+  --secondary: #102416;
+  --secondary-foreground: #9df7a8;
+  --muted: #0b180f;
+  --muted-foreground: #58b867;
+  --accent: #17351d;
+  --accent-foreground: #caffcf;
+  --destructive: #ff7d7d;
+  --destructive-foreground: #1a0505;
+  --border: #276a34;
+  --input: #276a34;
+  --ring: #b9ffc1;
+  --terminal-glow:
+    0 0 1px rgb(202 255 207 / 0.95),
+    0 0 6px rgb(141 255 154 / 0.58),
+    0 0 18px rgb(88 184 103 / 0.34);
+  --terminal-dim-glow:
+    0 0 1px rgb(202 255 207 / 0.7),
+    0 0 8px rgb(88 184 103 / 0.28);
+}
+
+:root.light {
+  --background: #d8d2b0;
+  --foreground: #203322;
+  --card: #c8c29f;
+  --card-foreground: #142817;
+  --popover: #c8c29f;
+  --popover-foreground: #142817;
+  --primary: #174d22;
+  --primary-foreground: #e9e3c1;
+  --secondary: #b7b18f;
+  --secondary-foreground: #213c25;
+  --muted: #c0ba98;
+  --muted-foreground: #516043;
+  --accent: #aab48a;
+  --accent-foreground: #17351d;
+  --destructive: #8f2f2f;
+  --destructive-foreground: #f5edc8;
+  --border: #6a754f;
+  --input: #6a754f;
+  --ring: #174d22;
+  --terminal-glow:
+    0 0 1px rgb(23 77 34 / 0.64),
+    0 0 5px rgb(23 77 34 / 0.25);
+  --terminal-dim-glow:
+    0 0 1px rgb(23 77 34 / 0.42),
+    0 0 4px rgb(23 77 34 / 0.18);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    background:
+      radial-gradient(circle at 50% 10%, rgb(18 52 24 / 0.42), transparent 34rem),
+      linear-gradient(rgb(141 255 154 / 0.055) 50%, rgb(0 0 0 / 0.14) 50%),
+      var(--background);
+    background-size: auto, 100% 4px, auto;
+    font-family:
+      "Fira Code", "Fira Mono", "Berkeley Mono", "SFMono-Regular", "Cascadia Mono",
+      "Liberation Mono", Consolas, monospace;
+    letter-spacing: 0;
+    text-shadow: var(--terminal-dim-glow);
+    font-synthesis: none;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    animation: crt-flicker 6s infinite steps(80);
+  }
+
+  :root.light body {
+    background:
+      radial-gradient(circle at 50% 10%, rgb(255 255 230 / 0.38), transparent 34rem),
+      linear-gradient(rgb(23 77 34 / 0.055) 50%, rgb(255 255 255 / 0.11) 50%),
+      var(--background);
+    background-size: auto, 100% 4px, auto;
+  }
+
+  body::before,
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  body::before {
+    background:
+      linear-gradient(rgb(255 255 255 / 0.035), rgb(0 0 0 / 0.075)),
+      repeating-linear-gradient(
+        to bottom,
+        rgb(0 0 0 / 0) 0,
+        rgb(0 0 0 / 0) 2px,
+        rgb(0 0 0 / 0.34) 3px,
+        rgb(0 0 0 / 0.34) 4px
+      );
+    mix-blend-mode: screen;
+    opacity: 0.42;
+    animation: scan-roll 9s linear infinite;
+  }
+
+  :root.light body::before {
+    mix-blend-mode: multiply;
+    opacity: 0.24;
+  }
+
+  body::after {
+    background:
+      radial-gradient(circle at center, transparent 42%, rgb(0 0 0 / 0.52) 100%),
+      linear-gradient(
+        90deg,
+        rgb(255 0 0 / 0.035),
+        rgb(0 255 84 / 0.025),
+        rgb(0 80 255 / 0.035)
+      );
+    opacity: 0.72;
+    animation: crt-bloom 5.5s infinite steps(60);
+  }
+
+  :root.light body::after {
+    background:
+      radial-gradient(circle at center, transparent 42%, rgb(70 65 38 / 0.32) 100%),
+      linear-gradient(
+        90deg,
+        rgb(80 30 30 / 0.025),
+        rgb(20 80 30 / 0.025),
+        rgb(20 50 110 / 0.025)
+      );
+    opacity: 0.46;
+  }
+
+  h1,
+  h2,
+  h3,
+  p,
+  a,
+  li,
+  time,
+  span,
+  code,
+  pre,
+  button {
+    text-shadow: var(--terminal-dim-glow);
+  }
+
+  h1,
+  h2,
+  h3,
+  .terminal-title {
+    text-shadow: var(--terminal-glow);
+  }
+
+  .terminal-shell {
+    position: relative;
+  }
+
+  .terminal-shell::before,
+  .terminal-shell::after {
+    content: "";
+    position: fixed;
+    inset-inline: 0;
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  .terminal-shell::before {
+    top: 14%;
+    height: 2px;
+    background: rgb(202 255 207 / 0.36);
+    box-shadow: 0 0 18px rgb(141 255 154 / 0.6);
+    opacity: 0;
+    animation: horizontal-tear 11s infinite steps(1);
+  }
+
+  .terminal-shell::after {
+    top: -25%;
+    height: 22%;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(141 255 154 / 0.08),
+      transparent
+    );
+    animation: vertical-hold 13s linear infinite;
+  }
+
+  a {
+    @apply underline-offset-4;
+  }
+
+  a:hover {
+    text-shadow: var(--terminal-glow);
+  }
+
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-foreground);
+    text-shadow: none;
+  }
+}
+
+@keyframes crt-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  48% {
+    opacity: 0.985;
+  }
+
+  49% {
+    opacity: 0.94;
+  }
+
+  50% {
+    opacity: 0.995;
+  }
+
+  82% {
+    opacity: 0.975;
+  }
+}
+
+@keyframes scan-roll {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(8px);
+  }
+}
+
+@keyframes crt-bloom {
+  0%,
+  100% {
+    opacity: 0.7;
+    filter: brightness(1);
+  }
+
+  52% {
+    opacity: 0.82;
+    filter: brightness(1.08);
+  }
+
+  53% {
+    opacity: 0.62;
+    filter: brightness(0.92);
+  }
+}
+
+@keyframes horizontal-tear {
+  0%,
+  86%,
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  87% {
+    opacity: 0.78;
+    transform: translateY(0);
+  }
+
+  88% {
+    opacity: 0.2;
+    transform: translateY(38vh);
+  }
+}
+
+@keyframes vertical-hold {
+  0% {
+    transform: translateY(-20vh);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 0.4;
+  }
+
+  18%,
+  100% {
+    transform: translateY(150vh);
+    opacity: 0;
+  }
+}
+
+@keyframes command-jitter {
+  0%,
+  93%,
+  100% {
+    transform: translateX(0);
+  }
+
+  94% {
+    transform: translateX(1px);
+  }
+
+  95% {
+    transform: translateX(-1px);
+  }
+}
+
+@keyframes text-dropout {
+  0%,
+  91%,
+  100% {
+    opacity: 1;
+  }
+
+  92% {
+    opacity: 0.64;
+  }
+
+  93% {
+    opacity: 0.95;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body,
+  body::before,
+  body::after,
+  .terminal-shell::before,
+  .terminal-shell::after {
+    animation: none;
+  }
+}
+
+@layer components {
+  .terminal-shell {
+    box-shadow:
+      inset 0 0 0 1px rgb(141 255 154 / 0.16),
+      inset 0 0 38px rgb(141 255 154 / 0.08);
+  }
+
+  .terminal-panel {
+    @apply border border-border bg-card/70;
+    box-shadow: var(--terminal-dim-glow);
+  }
+
+  .terminal-title::before {
+    content: "> ";
+    color: var(--primary);
+  }
+
+  .terminal-prompt {
+    @apply min-w-0 text-sm text-foreground;
+  }
+
+  .terminal-prompt__line {
+    @apply flex min-w-0 items-center gap-2;
+  }
+
+  .terminal-prompt__host,
+  .terminal-prompt__path {
+    @apply shrink-0 font-semibold text-foreground;
+    text-shadow: var(--terminal-glow);
+  }
+
+  .terminal-prompt__host {
+    @apply no-underline;
+  }
+
+  .terminal-prompt__input {
+    @apply min-w-0 border-0 bg-transparent p-0 text-foreground outline-none;
+    width: min(18rem, 44vw);
+    caret-color: var(--primary);
+    text-shadow: var(--terminal-glow);
+    animation: command-jitter 7s infinite steps(1);
+  }
+
+  .terminal-prompt__input::placeholder {
+    color: var(--muted-foreground);
+    opacity: 1;
+  }
+
+  .terminal-prompt__output {
+    @apply mt-1 text-xs text-muted-foreground;
+    animation: text-dropout 10s infinite steps(1);
+  }
+
+  .theme-switch {
+    @apply inline-flex h-9 items-center gap-2 px-2 text-xs uppercase text-muted-foreground;
+  }
+
+  .theme-switch__label {
+    @apply hidden sm:inline;
+  }
+
+  .theme-switch__root {
+    @apply relative h-5 w-10 border border-border bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
+    box-shadow: inset 0 0 10px rgb(141 255 154 / 0.08);
+  }
+
+  .theme-switch__root[data-state="checked"] {
+    @apply bg-accent;
+  }
+
+  .theme-switch__thumb {
+    @apply block size-4 translate-x-0.5 bg-primary transition-transform;
+    box-shadow: var(--terminal-glow);
+  }
+
+  .theme-switch__thumb[data-state="checked"] {
+    transform: translateX(1.25rem);
+  }
+
+  .tech-stack {
+    @apply flex items-center gap-2;
+  }
+
+  .tech-stack__repo {
+    @apply mr-2;
+  }
+
+  .tech-stack__link {
+    @apply inline-flex size-8 items-center justify-center border border-border bg-background text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground;
+    box-shadow: var(--terminal-dim-glow);
+  }
+
+  .starwars-console {
+    @apply fixed inset-0 z-50 flex flex-col bg-background text-foreground;
+  }
+
+  .starwars-console__bar {
+    @apply flex items-center justify-between border-b border-border bg-card px-5 py-3 text-xs uppercase text-muted-foreground;
+  }
+
+  .starwars-console__close {
+    @apply border border-border bg-background px-3 py-1 uppercase text-foreground;
+  }
+
+  .starwars-console__frame {
+    @apply min-h-0 flex-1 border-0 bg-black;
+    filter: grayscale(1) sepia(1) hue-rotate(62deg) saturate(2.8) brightness(0.86) contrast(1.25);
+  }
+
+  .starwars-console__credit {
+    @apply border-t border-border bg-card px-5 py-2 text-xs text-muted-foreground;
+  }
+
+  .terminal-image {
+    filter: sepia(1) hue-rotate(70deg) saturate(1.65) brightness(0.72) contrast(1.25);
+    opacity: 0.82;
+    transition:
+      filter 180ms ease,
+      opacity 180ms ease;
+  }
+
+  .terminal-image:hover,
+  .group:hover .terminal-image,
+  .group:focus-visible .terminal-image {
+    filter: none;
+    opacity: 1;
+  }
+
+  :root.light .terminal-image {
+    filter: grayscale(1) sepia(0.85) hue-rotate(56deg) saturate(1.15) brightness(0.92) contrast(1.15);
+  }
+
+  :root.light .terminal-image:hover,
+  :root.light .group:hover .terminal-image,
+  :root.light .group:focus-visible .terminal-image {
+    filter: none;
+  }
+
+  .username-modal {
+    @apply fixed inset-0 z-50 grid place-items-center bg-background/90 px-5;
+  }
+
+  .username-modal__panel {
+    @apply grid w-full max-w-md gap-4 border border-border bg-card/70 p-5;
+    box-shadow: var(--terminal-dim-glow);
+  }
+
+  .username-modal__label {
+    @apply text-xs uppercase text-muted-foreground;
+  }
+
+  .username-modal__input {
+    @apply border border-border bg-background px-3 py-2 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring;
+    caret-color: var(--primary);
+    text-shadow: var(--terminal-glow);
+  }
+
+  .prose-content {
+    @apply max-w-none text-[0.95rem] leading-7 text-foreground;
+  }
+
+  .prose-content h1,
+  .prose-content h2,
+  .prose-content h3 {
+    @apply mt-10 scroll-m-24 font-semibold uppercase tracking-normal text-foreground;
+    text-shadow: var(--terminal-glow);
+  }
+
+  .prose-content h1 {
+    @apply text-2xl leading-tight sm:text-3xl;
+  }
+
+  .prose-content h2 {
+    @apply text-xl leading-tight;
+  }
+
+  .prose-content h3 {
+    @apply text-lg;
+  }
+
+  .prose-content p,
+  .prose-content ul,
+  .prose-content ol,
+  .prose-content pre,
+  .prose-content blockquote {
+    @apply my-5;
+  }
+
+  .prose-content a {
+    @apply text-primary underline decoration-dotted underline-offset-4;
+  }
+
+  .prose-content ul {
+    @apply list-disc pl-6;
+  }
+
+  .prose-content ol {
+    @apply list-decimal pl-6;
+  }
+
+  .prose-content blockquote {
+    @apply border-l border-accent pl-4 text-muted-foreground;
+  }
+
+  .prose-content code {
+    @apply bg-muted px-1.5 py-0.5 text-sm text-accent-foreground;
+  }
+
+  .prose-content pre {
+    @apply overflow-x-auto border border-border bg-muted p-4 text-foreground;
+    box-shadow: inset 0 0 18px rgb(141 255 154 / 0.08);
+  }
+
+  .prose-content pre code {
+    @apply bg-transparent p-0 text-foreground;
+  }
+
+  .prose-content table {
+    @apply my-6 w-full border-collapse text-sm;
+  }
+
+  .prose-content th,
+  .prose-content td {
+    @apply border border-border px-3 py-2 align-top;
+  }
+
+  .prose-content th {
+    @apply bg-muted text-left font-semibold text-foreground;
+  }
+}
