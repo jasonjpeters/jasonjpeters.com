@@ -11,7 +11,10 @@
         {{ page?.heroTitle || page?.title || 'Portfolio and Posts' }}
       </h1>
       <p class="max-w-2xl text-lg leading-8 text-muted-foreground">
-        {{ page?.description }}
+        {{ page?.description || site.description }}
+      </p>
+      <p class="max-w-3xl leading-7 text-muted-foreground">
+        {{ site.homepageIntro }}
       </p>
       <div v-if="page" class="prose-content">
         <component :is="page.component" />
@@ -35,16 +38,15 @@ import { RouterLink } from 'vue-router'
 import { posts } from '@/lib/content/posts'
 import { getPage } from '@/lib/content/pages'
 import { useSeo } from '@/lib/seo'
+import { site } from '@/lib/site'
 import PostList from '@/components/PostList.vue'
 import { Button } from '@/components/ui/button'
 
 const page = getPage('home')
 
 useSeo({
-  title: page?.seoTitle || 'Jason Peters | Software, Web, and Systems Development',
-  description:
-    page?.description ||
-    'Technical writing, web development notes, infrastructure experiments, and project work from Jason Peters.',
+  title: page?.seoTitle || site.title,
+  description: page?.description || site.description,
   path: '/',
 })
 </script>

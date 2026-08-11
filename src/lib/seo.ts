@@ -1,9 +1,5 @@
 import { watchEffect, type MaybeRefOrGetter, toValue } from 'vue'
-
-export const siteName = 'Jason Peters'
-export const siteUrl = import.meta.env.VITE_SITE_URL || 'https://jasonjpeters.com'
-export const defaultDescription =
-  'Technical writing, web development notes, infrastructure experiments, and project work from Jason Peters.'
+import { defaultDescription, defaultSocialImage, defaultSocialImageAlt, siteName, siteUrl } from './site'
 
 export type SeoPageType = 'website' | 'article'
 
@@ -97,11 +93,14 @@ export function useSeo(input: ReactiveSeoMetadata = {}) {
     const path = normalizePath(toValue(input.path) || '/')
     const canonical = toValue(input.canonical) || path
     const url = new URL(canonical, siteUrl).toString()
-    const imageValue = toValue(input.image)
-    const image = imageValue ? new URL(imageValue, siteUrl).toString() : undefined
-    const imageAlt = toValue(input.imageAlt) || rawTitle || siteName
+    const imageValue = toValue(input.image) || defaultSocialImage
+    const image = new URL(imageValue, siteUrl).toString()
+    const imageAlt = toValue(input.imageAlt) || defaultSocialImageAlt
     const type = toValue(input.type) || 'website'
     const noindex = Boolean(toValue(input.noindex))
+    const publishedAt = toValue(input.publishedAt)
+    const modifiedAt = toValue(input.modifiedAt)
+    const tags = toValue(input.tags) || []
 
     document.title = title
     if (noindex) {
@@ -125,7 +124,7 @@ export function useSeo(input: ReactiveSeoMetadata = {}) {
     upsertMeta('meta[property="og:url"]', { property: 'og:url', content: url })
     upsertMeta('meta[name="twitter:card"]', {
       name: 'twitter:card',
-      content: image ? 'summary_large_image' : 'summary',
+      content: 'summary_large_image',
     })
     upsertMeta('meta[name="twitter:title"]', { name: 'twitter:title', content: title })
     upsertMeta('meta[name="twitter:description"]', {
@@ -133,19 +132,45 @@ export function useSeo(input: ReactiveSeoMetadata = {}) {
       content: description,
     })
 
-    if (image) {
-      upsertMeta('meta[property="og:image"]', { property: 'og:image', content: image })
-      upsertMeta('meta[property="og:image:alt"]', { property: 'og:image:alt', content: imageAlt })
-      upsertMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: image })
-      upsertMeta('meta[name="twitter:image:alt"]', {
-        name: 'twitter:image:alt',
-        content: imageAlt,
-      })
+    upsertMeta('meta[property="og:image"]', { property: 'og:image', content: image })
+    upsertMeta('meta[property="og:image:alt"]', { property: 'og:image:alt', content: imageAlt })
+    upsertMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: image })
+    upsertMeta('meta[name="twitter:image:alt"]', {
+      name: 'twitter:image:alt',
+      content: imageAlt,
+    })
+
+    if (type === 'article') {
+      if (publishedAt) {
+        upsertMeta('meta[property="article:published_time"]', {
+          property: 'article:published_time',
+          content: publishedAt,
+        })
+      }
+
+      if (modifiedAt) {
+        upsertMeta('meta[property="article:modified_time"]', {
+          property: 'article:modified_time',
+          content: modifiedAt,
+        })
+      }
+
+      document.head
+        .querySelectorAll<HTMLMetaElement>('meta[property="article:tag"]')
+        .forEach((element) => element.remove())
+
+      for (const tag of tags) {
+        const element = document.createElement('meta')
+        element.setAttribute('property', 'article:tag')
+        element.setAttribute('content', tag)
+        document.head.append(element)
+      }
     } else {
-      removeElement('meta[property="og:image"]')
-      removeElement('meta[property="og:image:alt"]')
-      removeElement('meta[name="twitter:image"]')
-      removeElement('meta[name="twitter:image:alt"]')
+      removeElement('meta[property="article:published_time"]')
+      removeElement('meta[property="article:modified_time"]')
+      document.head
+        .querySelectorAll<HTMLMetaElement>('meta[property="article:tag"]')
+        .forEach((element) => element.remove())
     }
   })
 }

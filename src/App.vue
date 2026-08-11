@@ -1,9 +1,9 @@
 <template>
   <div class="terminal-shell flex min-h-svh flex-col bg-background text-foreground">
     <header class="border-b border-border bg-card/60">
-      <div class="mx-auto flex max-w-5xl flex-wrap items-start justify-between gap-4 px-5 py-5">
+      <div class="mx-auto flex max-w-5xl items-start justify-between gap-4 px-5 py-5">
         <TerminalPrompt :username="username" />
-        <nav class="flex items-center gap-1 text-sm text-muted-foreground" aria-label="Primary navigation">
+        <nav class="shrink-0 flex items-center gap-1 text-sm text-muted-foreground" aria-label="Primary navigation">
           <ThemeToggle :theme="theme" @toggle="toggleTheme" />
           <Button as-child variant="ghost" size="sm">
             <RouterLink to="/posts/">Posts</RouterLink>

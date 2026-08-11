@@ -31,35 +31,6 @@
 
 :root {
   --radius: 0;
-  --background: #050806;
-  --foreground: #8dff9a;
-  --card: #07110a;
-  --card-foreground: #b9ffc1;
-  --popover: #07110a;
-  --popover-foreground: #b9ffc1;
-  --primary: #8dff9a;
-  --primary-foreground: #031005;
-  --secondary: #102416;
-  --secondary-foreground: #9df7a8;
-  --muted: #0b180f;
-  --muted-foreground: #58b867;
-  --accent: #17351d;
-  --accent-foreground: #caffcf;
-  --destructive: #ff7d7d;
-  --destructive-foreground: #1a0505;
-  --border: #276a34;
-  --input: #276a34;
-  --ring: #b9ffc1;
-  --terminal-glow:
-    0 0 1px rgb(202 255 207 / 0.95),
-    0 0 6px rgb(141 255 154 / 0.58),
-    0 0 18px rgb(88 184 103 / 0.34);
-  --terminal-dim-glow:
-    0 0 1px rgb(202 255 207 / 0.7),
-    0 0 8px rgb(88 184 103 / 0.28);
-}
-
-:root.light {
   --background: #050200;
   --foreground: #ffb454;
   --card: #120700;
@@ -88,6 +59,35 @@
     0 0 5px rgb(255 129 0 / 0.18);
 }
 
+:root.light {
+  --background: #050806;
+  --foreground: #8dff9a;
+  --card: #07110a;
+  --card-foreground: #b9ffc1;
+  --popover: #07110a;
+  --popover-foreground: #b9ffc1;
+  --primary: #8dff9a;
+  --primary-foreground: #031005;
+  --secondary: #102416;
+  --secondary-foreground: #9df7a8;
+  --muted: #0b180f;
+  --muted-foreground: #58b867;
+  --accent: #17351d;
+  --accent-foreground: #caffcf;
+  --destructive: #ff7d7d;
+  --destructive-foreground: #1a0505;
+  --border: #276a34;
+  --input: #276a34;
+  --ring: #b9ffc1;
+  --terminal-glow:
+    0 0 1px rgb(202 255 207 / 0.95),
+    0 0 6px rgb(141 255 154 / 0.58),
+    0 0 18px rgb(88 184 103 / 0.34);
+  --terminal-dim-glow:
+    0 0 1px rgb(202 255 207 / 0.7),
+    0 0 8px rgb(88 184 103 / 0.28);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -100,8 +100,8 @@
   body {
     @apply bg-background text-foreground;
     background:
-      radial-gradient(circle at 50% 10%, rgb(18 52 24 / 0.42), transparent 34rem),
-      linear-gradient(rgb(141 255 154 / 0.055) 50%, rgb(0 0 0 / 0.14) 50%),
+      radial-gradient(circle at 50% 10%, rgb(255 129 0 / 0.16), transparent 34rem),
+      linear-gradient(rgb(255 129 0 / 0.05) 50%, rgb(0 0 0 / 0.16) 50%),
       var(--background);
     background-size: auto, 100% 4px, auto;
     font-family:
@@ -117,8 +117,8 @@
 
   :root.light body {
     background:
-      radial-gradient(circle at 50% 10%, rgb(255 129 0 / 0.16), transparent 34rem),
-      linear-gradient(rgb(255 129 0 / 0.05) 50%, rgb(0 0 0 / 0.16) 50%),
+      radial-gradient(circle at 50% 10%, rgb(18 52 24 / 0.42), transparent 34rem),
+      linear-gradient(rgb(141 255 154 / 0.055) 50%, rgb(0 0 0 / 0.14) 50%),
       var(--background);
     background-size: auto, 100% 4px, auto;
   }
@@ -142,30 +142,17 @@
         rgb(0 0 0 / 0.34) 3px,
         rgb(0 0 0 / 0.34) 4px
       );
-    mix-blend-mode: screen;
-    opacity: 0.42;
+    mix-blend-mode: multiply;
+    opacity: 0.24;
     animation: scan-roll 9s linear infinite;
   }
 
   :root.light body::before {
-    mix-blend-mode: multiply;
-    opacity: 0.24;
+    mix-blend-mode: screen;
+    opacity: 0.42;
   }
 
   body::after {
-    background:
-      radial-gradient(circle at center, transparent 42%, rgb(0 0 0 / 0.52) 100%),
-      linear-gradient(
-        90deg,
-        rgb(255 0 0 / 0.035),
-        rgb(0 255 84 / 0.025),
-        rgb(0 80 255 / 0.035)
-      );
-    opacity: 0.72;
-    animation: crt-bloom 5.5s infinite steps(60);
-  }
-
-  :root.light body::after {
     background:
       radial-gradient(circle at center, transparent 42%, rgb(0 0 0 / 0.46) 100%),
       linear-gradient(
@@ -175,6 +162,19 @@
         rgb(255 210 120 / 0.026)
       );
     opacity: 0.58;
+    animation: crt-bloom 5.5s infinite steps(60);
+  }
+
+  :root.light body::after {
+    background:
+      radial-gradient(circle at center, transparent 42%, rgb(0 0 0 / 0.52) 100%),
+      linear-gradient(
+        90deg,
+        rgb(255 0 0 / 0.035),
+        rgb(0 255 84 / 0.025),
+        rgb(0 80 255 / 0.035)
+      );
+    opacity: 0.72;
   }
 
   h1,
@@ -394,26 +394,30 @@
   }
 
   .terminal-prompt {
-    @apply min-w-0 text-sm text-foreground;
+    @apply min-w-0 flex-1 text-sm text-foreground;
   }
 
   .terminal-prompt__line {
-    @apply flex min-w-0 items-center gap-2;
+    @apply flex min-w-0 max-w-full items-center gap-2 overflow-hidden whitespace-nowrap;
   }
 
   .terminal-prompt__host,
   .terminal-prompt__path {
-    @apply shrink-0 font-semibold text-foreground;
+    @apply font-semibold text-foreground;
     text-shadow: var(--terminal-glow);
   }
 
   .terminal-prompt__host {
-    @apply no-underline;
+    @apply shrink-0 no-underline;
+  }
+
+  .terminal-prompt__path {
+    @apply min-w-0 truncate;
   }
 
   .terminal-prompt__input {
-    @apply min-w-0 border-0 bg-transparent p-0 text-foreground outline-none;
-    width: min(18rem, 44vw);
+    @apply min-w-8 shrink-0 border-0 bg-transparent p-0 text-foreground outline-none;
+    width: clamp(2rem, 9vw, 7rem);
     caret-color: var(--primary);
     text-shadow: var(--terminal-glow);
     animation: command-jitter 7s infinite steps(1);
@@ -490,7 +494,7 @@
   }
 
   .terminal-image {
-    filter: sepia(1) hue-rotate(70deg) saturate(1.65) brightness(0.72) contrast(1.25);
+    filter: grayscale(1) sepia(1) hue-rotate(352deg) saturate(2.1) brightness(0.78) contrast(1.22);
     opacity: 0.82;
     transition:
       filter 180ms ease,
@@ -499,17 +503,19 @@
 
   .terminal-image:hover,
   .group:hover .terminal-image,
+  .group:focus-within .terminal-image,
   .group:focus-visible .terminal-image {
     filter: none;
     opacity: 1;
   }
 
   :root.light .terminal-image {
-    filter: grayscale(1) sepia(1) hue-rotate(352deg) saturate(2.1) brightness(0.78) contrast(1.22);
+    filter: sepia(1) hue-rotate(70deg) saturate(1.65) brightness(0.72) contrast(1.25);
   }
 
   :root.light .terminal-image:hover,
   :root.light .group:hover .terminal-image,
+  :root.light .group:focus-within .terminal-image,
   :root.light .group:focus-visible .terminal-image {
     filter: none;
   }

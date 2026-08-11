@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-## Content
+## Content Publishing
 
 Add posts as directories with an `index.md` file:
 
@@ -32,6 +32,40 @@ schemaType: BlogPosting
 ```
 
 The directory name becomes the URL, for example `/posts/my-post-slug/`. Assets can live beside the markdown file and be referenced with relative paths.
+
+Required fields for normal posts are `title`, `description`, `date`, and `tags`. Optional fields include `updated`, `image`, `imageAlt`, `canonical`, `draft`, `type`, `externalUrl`, and `schemaType`.
+
+Use explicit descriptions. The build may warn about missing, duplicated, very short, or very long metadata, but it does not try to manufacture SEO copy from article prose.
+
+Recommended technical post frontmatter:
+
+```md
+---
+title: Running Multiple WordPress Plugins with wp-env
+description: Configure one wp-env development environment to load multiple local WordPress plugins.
+date: 2026-08-11
+updated: 2026-08-12
+type: post
+tags:
+  - WordPress
+  - Development
+image: /images/posts/wp-env.webp
+imageAlt: wp-env development environment
+schemaType: BlogPosting
+---
+```
+
+`updated` should only be set when the article has been materially revised. It must not be earlier than `date`.
+
+`draft: true` prevents a post from being published, included in the sitemap, RSS feed, topic pages, related-post logic, or LLM files.
+
+Custom social images use `image` and `imageAlt`. Relative image paths are resolved from the post directory. If no valid custom image exists, metadata falls back to the default site social image at `/images/social/default-og.png`; the fallback is not rendered as an article image.
+
+Tags are normalized against the central topic definitions in `site.config.json`. Known aliases such as `Vue.js`/`vuejs`, `wp-env`/`WordPress`, and `incus`/`containers` map to canonical topics. Topic pages are generated automatically only after a topic reaches the configured publication threshold, so a one-off tag does not create a thin indexable page.
+
+`canonical` may be used for a deliberate canonical override. Keep it absolute on `https://jasonjpeters.com` or root-relative.
+
+A reusable draft template lives at `content/_templates/post.md`; files in `_templates` are not published.
 
 Use `type: graphic-art` for short archive posts that point to an externally hosted visual project:
 

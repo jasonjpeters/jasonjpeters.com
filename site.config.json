@@ -1,0 +1,115 @@
+{
+  "name": "Jason Peters",
+  "siteName": "jasonjpeters.com",
+  "url": "https://jasonjpeters.com",
+  "title": "Jason Peters | Software, Web, and Systems Development",
+  "description": "Technical writing, development notes, infrastructure experiments, graphic work, and project notes.",
+  "homepageIntro": "I work across practical websites, software development, Linux infrastructure, and technical experiments. This site collects technical writing, project updates, graphic work, and experiments from that practice.",
+  "socialImage": "/images/social/default-og.png",
+  "socialImageAlt": "Jason Peters, software, web, and systems development",
+  "author": {
+    "name": "Jason J. Peters",
+    "displayName": "Jason Peters",
+    "description": "Systems-minded web developer and graphic designer focused on practical websites, tools, and Linux-based systems.",
+    "url": "/",
+    "jobTitle": "Web and software developer",
+    "sameAs": []
+  },
+  "topics": [
+    "Web Development",
+    "Software Development",
+    "PHP",
+    "JavaScript",
+    "TypeScript",
+    "Laravel",
+    "Vue.js",
+    "WordPress",
+    "Linux",
+    "Systems Administration",
+    "Infrastructure",
+    "Containers",
+    "Virtualization",
+    "Technical Experiments"
+  ],
+  "topicPageMinimumPosts": 2,
+  "topicDefinitions": [
+    {
+      "slug": "web-development",
+      "name": "Web Development",
+      "aliases": ["web", "frontend", "front-end", "development"],
+      "description": "Articles and development notes covering practical web development, application structure, tooling, and maintainable project workflows."
+    },
+    {
+      "slug": "software-development",
+      "name": "Software Development",
+      "aliases": ["software", "programming"],
+      "description": "Technical writing and project notes about software development practices, implementation decisions, and durable tooling."
+    },
+    {
+      "slug": "php",
+      "name": "PHP",
+      "aliases": ["php-development"],
+      "description": "Posts about PHP development, backend application work, and adjacent web platform tooling."
+    },
+    {
+      "slug": "javascript",
+      "name": "JavaScript",
+      "aliases": ["js"],
+      "description": "Notes on JavaScript development, browser behavior, tooling, and modern frontend workflows."
+    },
+    {
+      "slug": "typescript",
+      "name": "TypeScript",
+      "aliases": ["ts"],
+      "description": "Articles covering TypeScript usage, typed frontend code, and maintainable application patterns."
+    },
+    {
+      "slug": "laravel",
+      "name": "Laravel",
+      "aliases": ["laravel-framework"],
+      "description": "Laravel articles and backend development notes covering application architecture, integrations, and PHP workflows."
+    },
+    {
+      "slug": "vue",
+      "name": "Vue",
+      "aliases": ["vue.js", "vuejs"],
+      "description": "Vue development notes covering Vue 3, component architecture, static sites, and related frontend tooling."
+    },
+    {
+      "slug": "wordpress",
+      "name": "WordPress",
+      "aliases": ["wp", "wp-env"],
+      "description": "WordPress development notes covering plugin workflows, local environments, deployment, and practical site maintenance."
+    },
+    {
+      "slug": "linux",
+      "name": "Linux",
+      "aliases": ["debian", "shell", "i3wm"],
+      "description": "Linux articles and notes about desktop workflows, servers, command-line tooling, and development environments."
+    },
+    {
+      "slug": "systems-administration",
+      "name": "Systems Administration",
+      "aliases": ["sysadmin", "system-administration"],
+      "description": "Systems administration notes covering reliable Linux systems, services, configuration, and maintenance workflows."
+    },
+    {
+      "slug": "infrastructure",
+      "name": "Infrastructure",
+      "aliases": ["homelab", "local-cloud"],
+      "description": "Infrastructure writing about local clouds, development environments, service topology, and practical operations."
+    },
+    {
+      "slug": "containers",
+      "name": "Containers",
+      "aliases": ["container", "docker", "incus", "lxc"],
+      "description": "Container articles covering local infrastructure, development services, and container-oriented workflows."
+    },
+    {
+      "slug": "virtualization",
+      "name": "Virtualization",
+      "aliases": ["vm", "vms", "virtual-machines", "virtualbox"],
+      "description": "Virtualization notes about local VMs, lightweight infrastructure, and development environments."
+    }
+  ]
+}

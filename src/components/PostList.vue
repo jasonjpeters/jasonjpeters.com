@@ -1,48 +1,81 @@
 <template>
   <div class="terminal-panel divide-y divide-border">
-    <article v-for="post in posts" :key="post.slug" class="px-4 py-5">
-      <RouterLink :to="post.path" class="group block">
-        <div :class="post.image ? 'grid gap-4 md:grid-cols-[10rem_1fr]' : ''">
+    <article v-for="post in posts" :key="post.slug" class="group px-4 py-5">
+      <div :class="post.image ? 'grid gap-4 md:grid-cols-[10rem_1fr]' : ''">
+        <RouterLink :to="post.path" class="block">
           <img
             v-if="post.image"
             :src="post.image"
-            :alt="post.title"
+            :alt="post.imageAlt || post.title"
             class="terminal-image aspect-[4/3] w-full border border-border object-cover md:w-40"
             loading="lazy"
+            decoding="async"
           />
-          <div>
+        </RouterLink>
+        <div>
           <p class="terminal-title text-xs uppercase text-muted-foreground">
             &gt; <time :datetime="post.date">{{ formatDate(post.date) }}</time> | {{ postLabel(post.type) }}
           </p>
-          <h2 class="terminal-title text-lg font-semibold uppercase tracking-normal group-hover:underline">
-            {{ post.title }}
+          <h2 class="terminal-title text-lg font-semibold uppercase tracking-normal">
+            <RouterLink :to="post.path" class="hover:underline">
+              {{ post.title }}
+            </RouterLink>
           </h2>
           <p class="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
             {{ post.description }}
           </p>
           <div v-if="post.tags?.length" class="mt-3 flex flex-wrap gap-2">
+            <RouterLink
+              v-for="tag in linkedTags(post)"
+              :key="tag.label"
+              :to="tag.path"
+              class="border border-border bg-secondary px-2 py-1 text-xs uppercase text-secondary-foreground hover:bg-accent hover:text-accent-foreground"
+            >
+              {{ tag.label }}
+            </RouterLink>
             <span
-              v-for="tag in post.tags"
+              v-for="tag in plainTags(post)"
               :key="tag"
               class="border border-border bg-secondary px-2 py-1 text-xs uppercase text-secondary-foreground"
             >
               {{ tag }}
             </span>
           </div>
-          </div>
         </div>
-      </RouterLink>
+      </div>
     </article>
   </div>
 </template>
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import type { Post } from '@/lib/content/posts'
+import { posts as allPosts, type Post } from '@/lib/content/posts'
+import { eligibleTopicSummaries, topicLinkForTag } from '@/lib/topics'
 
 defineProps<{
   posts: Post[]
 }>()
+
+const topics = eligibleTopicSummaries(allPosts)
+
+function linkedTags(post: Post) {
+  return (post.tags || [])
+    .map((tag) => {
+      const topic = topicLinkForTag(tag, topics)
+
+      return topic
+        ? {
+            label: tag,
+            path: topic.path,
+          }
+        : undefined
+    })
+    .filter((tag): tag is { label: string; path: string } => Boolean(tag))
+}
+
+function plainTags(post: Post) {
+  return (post.tags || []).filter((tag) => !topicLinkForTag(tag, topics))
+}
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('en', {

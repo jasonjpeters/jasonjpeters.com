@@ -3,6 +3,8 @@ import HomePage from '@/pages/HomePage.vue'
 import PostsPage from '@/pages/PostsPage.vue'
 import PostPage from '@/pages/PostPage.vue'
 import AboutPage from '@/pages/AboutPage.vue'
+import TopicsPage from '@/pages/TopicsPage.vue'
+import TopicPage from '@/pages/TopicPage.vue'
 import NotFoundPage from '@/pages/NotFoundPage.vue'
 
 const base = import.meta.env.BASE_URL
@@ -15,6 +17,10 @@ export const router = createRouter({
     { path: '/posts/', name: 'posts', component: PostsPage },
     { path: '/posts/:slug', redirect: (to) => `/posts/${to.params.slug}/` },
     { path: '/posts/:slug/', name: 'post', component: PostPage },
+    { path: '/topics', redirect: '/topics/' },
+    { path: '/topics/', name: 'topics', component: TopicsPage },
+    { path: '/topics/:slug', redirect: (to) => `/topics/${to.params.slug}/` },
+    { path: '/topics/:slug/', name: 'topic', component: TopicPage },
     { path: '/about', redirect: '/about/' },
     { path: '/about/', name: 'about', component: AboutPage },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundPage },
