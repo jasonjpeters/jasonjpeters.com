@@ -86,6 +86,6 @@ function formatDate(date: string) {
 }
 
 function postLabel(type: Post['type']) {
-  return type === 'graphic-art' ? 'Graphic Art' : 'Post'
+  return type === 'graphic-art' ? 'Graphic Art' : 'Development'
 }
 </script>

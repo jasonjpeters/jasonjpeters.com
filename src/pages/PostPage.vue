@@ -15,7 +15,7 @@
     >
       <div>
         <p class="text-sm uppercase text-muted-foreground">
-          <span v-if="post.type === 'graphic-art'">Graphic Art / </span>
+          <span>{{ postLabel(post.type) }} / </span>
           Published <time :datetime="post.date">{{ formattedDate }}</time>
           <span v-if="post.updated">
             / Updated <time :datetime="post.updated">{{ formattedUpdatedDate }}</time>
@@ -135,6 +135,10 @@ const linkedTags = computed(() =>
 const plainTags = computed(() =>
   (post.value?.tags || []).filter((tag) => !topicLinkForTag(tag, eligibleTopics)),
 )
+
+function postLabel(type?: string) {
+  return type === 'graphic-art' ? 'Graphic Art' : 'Development'
+}
 
 useSeo({
   title: () => post.value?.title || 'Post Not Found',

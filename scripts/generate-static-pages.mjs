@@ -802,7 +802,7 @@ function renderPostList(posts) {
             <div>
               <p class="terminal-title text-xs uppercase text-muted-foreground">&gt; <time datetime="${escapeHtml(
                 sitemapDate(post.date) || '',
-              )}">${escapeHtml(formatHumanDate(post.date))}</time> | ${post.contentType === 'graphic-art' ? 'Graphic Art' : 'Post'}</p>
+              )}">${escapeHtml(formatHumanDate(post.date))}</time> | ${escapeHtml(postTypeLabel(post))}</p>
               <h2 class="terminal-title text-lg font-semibold uppercase tracking-normal"><a href="${escapeHtml(
                 post.path,
               )}" class="hover:underline">${escapeHtml(post.title)}</a></h2>
@@ -816,6 +816,10 @@ function renderPostList(posts) {
       )
       .join('')}
   </div>`
+}
+
+function postTypeLabel(post) {
+  return post.contentType === 'graphic-art' ? 'Graphic Art' : 'Development'
 }
 
 function renderTagList(tags = []) {
@@ -933,7 +937,7 @@ function renderPost(post, posts) {
     }">
       <div>
         <p class="text-sm uppercase text-muted-foreground">
-          ${post.contentType === 'graphic-art' ? '<span>Graphic Art / </span>' : ''}Published <time datetime="${escapeHtml(
+          <span>${escapeHtml(postTypeLabel(post))} / </span>Published <time datetime="${escapeHtml(
             sitemapDate(post.date) || '',
           )}">${escapeHtml(formatHumanDate(post.date))}</time>${
             post.updated
