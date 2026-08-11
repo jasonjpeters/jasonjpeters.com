@@ -18,7 +18,7 @@ import PostList from '@/components/PostList.vue'
 
 useSeo({
   title: 'Posts',
-  description: 'Markdown-authored project posts and technical notes from Jason Peters.',
+  description: 'Technical posts, project notes, and Markdown-authored writeups from Jason Peters.',
   path: '/posts/',
 })
 </script>

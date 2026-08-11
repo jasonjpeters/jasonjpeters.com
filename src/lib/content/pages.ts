@@ -3,10 +3,13 @@ import { parseFrontmatter } from './frontmatter'
 
 export type PageFrontmatter = {
   title: string
+  seoTitle?: string
   description?: string
   eyebrow?: string
   heroTitle?: string
   image?: string
+  imageAlt?: string
+  canonical?: string
   draft?: boolean
 }
 
@@ -31,7 +34,7 @@ function slugFromPath(path: string) {
 }
 
 function pagePath(slug: string) {
-  return slug === 'home' ? '/' : `/${slug}`
+  return slug === 'home' ? '/' : `/${slug}/`
 }
 
 export const pages = Object.entries(files)

@@ -23,7 +23,7 @@
     <div class="mb-6 flex items-center justify-between gap-4">
       <h2 class="terminal-title text-xl font-semibold uppercase tracking-normal">Latest Posts</h2>
       <Button as-child variant="outline" size="sm">
-        <RouterLink to="/posts">View all</RouterLink>
+        <RouterLink to="/posts/">View all</RouterLink>
       </Button>
     </div>
     <PostList :posts="posts.slice(0, 4)" />
@@ -41,8 +41,10 @@ import { Button } from '@/components/ui/button'
 const page = getPage('home')
 
 useSeo({
-  title: page?.title || 'Portfolio and Posts',
-  description: page?.description || 'Work, project writeups, and technical notes from Jason J. Peters.',
+  title: page?.seoTitle || 'Jason Peters | Software, Web, and Systems Development',
+  description:
+    page?.description ||
+    'Technical writing, web development notes, infrastructure experiments, and project work from Jason Peters.',
   path: '/',
 })
 </script>

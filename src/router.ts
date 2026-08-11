@@ -11,9 +11,12 @@ export const router = createRouter({
   history: createWebHistory(base),
   routes: [
     { path: '/', name: 'home', component: HomePage },
-    { path: '/posts', name: 'posts', component: PostsPage },
-    { path: '/posts/:slug', name: 'post', component: PostPage },
-    { path: '/about', name: 'about', component: AboutPage },
+    { path: '/posts', redirect: '/posts/' },
+    { path: '/posts/', name: 'posts', component: PostsPage },
+    { path: '/posts/:slug', redirect: (to) => `/posts/${to.params.slug}/` },
+    { path: '/posts/:slug/', name: 'post', component: PostPage },
+    { path: '/about', redirect: '/about/' },
+    { path: '/about/', name: 'about', component: AboutPage },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundPage },
   ],
 })

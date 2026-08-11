@@ -60,31 +60,32 @@
 }
 
 :root.light {
-  --background: #d8d2b0;
-  --foreground: #203322;
-  --card: #c8c29f;
-  --card-foreground: #142817;
-  --popover: #c8c29f;
-  --popover-foreground: #142817;
-  --primary: #174d22;
-  --primary-foreground: #e9e3c1;
-  --secondary: #b7b18f;
-  --secondary-foreground: #213c25;
-  --muted: #c0ba98;
-  --muted-foreground: #516043;
-  --accent: #aab48a;
-  --accent-foreground: #17351d;
-  --destructive: #8f2f2f;
-  --destructive-foreground: #f5edc8;
-  --border: #6a754f;
-  --input: #6a754f;
-  --ring: #174d22;
+  --background: #050200;
+  --foreground: #ffb454;
+  --card: #120700;
+  --card-foreground: #ffd19a;
+  --popover: #120700;
+  --popover-foreground: #ffd19a;
+  --primary: #ff9a1f;
+  --primary-foreground: #120700;
+  --secondary: #261000;
+  --secondary-foreground: #ffc06f;
+  --muted: #1a0b00;
+  --muted-foreground: #c47a2a;
+  --accent: #3a1800;
+  --accent-foreground: #ffe0b2;
+  --destructive: #ff6b4a;
+  --destructive-foreground: #1a0500;
+  --border: #9d4f00;
+  --input: #9d4f00;
+  --ring: #ffb454;
   --terminal-glow:
-    0 0 1px rgb(23 77 34 / 0.64),
-    0 0 5px rgb(23 77 34 / 0.25);
+    0 0 1px rgb(255 224 178 / 0.82),
+    0 0 6px rgb(255 129 0 / 0.48),
+    0 0 18px rgb(255 129 0 / 0.22);
   --terminal-dim-glow:
-    0 0 1px rgb(23 77 34 / 0.42),
-    0 0 4px rgb(23 77 34 / 0.18);
+    0 0 1px rgb(255 180 84 / 0.52),
+    0 0 5px rgb(255 129 0 / 0.18);
 }
 
 @layer base {
@@ -116,8 +117,8 @@
 
   :root.light body {
     background:
-      radial-gradient(circle at 50% 10%, rgb(255 255 230 / 0.38), transparent 34rem),
-      linear-gradient(rgb(23 77 34 / 0.055) 50%, rgb(255 255 255 / 0.11) 50%),
+      radial-gradient(circle at 50% 10%, rgb(255 129 0 / 0.16), transparent 34rem),
+      linear-gradient(rgb(255 129 0 / 0.05) 50%, rgb(0 0 0 / 0.16) 50%),
       var(--background);
     background-size: auto, 100% 4px, auto;
   }
@@ -166,14 +167,14 @@
 
   :root.light body::after {
     background:
-      radial-gradient(circle at center, transparent 42%, rgb(70 65 38 / 0.32) 100%),
+      radial-gradient(circle at center, transparent 42%, rgb(0 0 0 / 0.46) 100%),
       linear-gradient(
         90deg,
-        rgb(80 30 30 / 0.025),
-        rgb(20 80 30 / 0.025),
-        rgb(20 50 110 / 0.025)
+        rgb(255 60 0 / 0.028),
+        rgb(255 129 0 / 0.024),
+        rgb(255 210 120 / 0.026)
       );
-    opacity: 0.46;
+    opacity: 0.58;
   }
 
   h1,
@@ -504,7 +505,7 @@
   }
 
   :root.light .terminal-image {
-    filter: grayscale(1) sepia(0.85) hue-rotate(56deg) saturate(1.15) brightness(0.92) contrast(1.15);
+    filter: grayscale(1) sepia(1) hue-rotate(352deg) saturate(2.1) brightness(0.78) contrast(1.22);
   }
 
   :root.light .terminal-image:hover,

@@ -1,6 +1,6 @@
 <template>
   <article v-if="post" :class="post.type === 'graphic-art' ? 'mx-auto max-w-4xl' : 'mx-auto max-w-3xl'">
-    <RouterLink to="/posts" class="terminal-title text-sm uppercase text-muted-foreground hover:text-foreground">
+    <RouterLink to="/posts/" class="terminal-title text-sm uppercase text-muted-foreground hover:text-foreground">
       Back to posts
     </RouterLink>
     <header
@@ -39,7 +39,7 @@
     <figure v-if="post.image" class="mt-8">
       <img
         :src="post.image"
-        :alt="post.title"
+        :alt="post.imageAlt || post.title"
         class="terminal-image w-full border border-border object-cover"
       />
     </figure>
@@ -76,7 +76,9 @@ useSeo({
   title: () => post.value?.title || 'Post Not Found',
   description: () => post.value?.description,
   path: () => post.value?.path || route.path,
+  canonical: () => post.value?.canonical,
   image: () => post.value?.image,
+  imageAlt: () => post.value?.imageAlt,
   type: 'article',
 })
 </script>

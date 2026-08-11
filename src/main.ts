@@ -7,6 +7,7 @@ import '@fontsource/fira-sans/latin-600.css'
 import './style.css'
 import App from './App.vue'
 import { router } from './router'
+import { installAnalytics } from './lib/analytics'
 import MarkdownCallout from './components/content/MarkdownCallout.vue'
 import { Button } from './components/ui/button'
 
@@ -15,3 +16,5 @@ createApp(App)
   .component('Button', Button)
   .component('MarkdownCallout', MarkdownCallout)
   .mount('#app')
+
+installAnalytics(router)

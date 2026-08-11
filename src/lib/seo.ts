@@ -1,15 +1,28 @@
 import { watchEffect, type MaybeRefOrGetter, toValue } from 'vue'
 
-const siteName = 'jasonjpeters.com'
-const defaultDescription = 'Work, writing, and project notes from Jason Peters.'
-const siteUrl = import.meta.env.VITE_SITE_URL || 'https://jasonjpeters.com'
+export const siteName = 'Jason Peters'
+export const siteUrl = import.meta.env.VITE_SITE_URL || 'https://jasonjpeters.com'
+export const defaultDescription =
+  'Technical writing, web development notes, infrastructure experiments, and project work from Jason Peters.'
 
-type SeoInput = {
-  title?: MaybeRefOrGetter<string | undefined>
-  description?: MaybeRefOrGetter<string | undefined>
-  path?: MaybeRefOrGetter<string | undefined>
-  image?: MaybeRefOrGetter<string | undefined>
-  type?: MaybeRefOrGetter<string | undefined>
+export type SeoPageType = 'website' | 'article'
+
+export interface SeoMetadata {
+  title?: string
+  description?: string
+  path?: string
+  canonical?: string
+  image?: string
+  imageAlt?: string
+  type?: SeoPageType
+  publishedAt?: string
+  modifiedAt?: string
+  tags?: string[]
+  noindex?: boolean
+}
+
+type ReactiveSeoMetadata = {
+  [Key in keyof SeoMetadata]?: MaybeRefOrGetter<SeoMetadata[Key]>
 }
 
 function upsertMeta(selector: string, attributes: Record<string, string>) {
@@ -37,20 +50,71 @@ function upsertCanonical(href: string) {
   element.href = href
 }
 
-export function useSeo(input: SeoInput = {}) {
+function removeCanonical() {
+  document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.remove()
+}
+
+function upsertFeedLink() {
+  let element = document.head.querySelector<HTMLLinkElement>('link[type="application/rss+xml"]')
+
+  if (!element) {
+    element = document.createElement('link')
+    element.rel = 'alternate'
+    element.type = 'application/rss+xml'
+    document.head.append(element)
+  }
+
+  element.title = `${siteName} Feed`
+  element.href = '/feed.xml'
+}
+
+function removeElement(selector: string) {
+  document.head.querySelector(selector)?.remove()
+}
+
+function normalizePath(path = '/') {
+  if (path === '/404.html') {
+    return path
+  }
+
+  const clean = `/${path.replace(/^\/+|\/+$/g, '')}`
+  return clean === '/' ? '/' : `${clean}/`
+}
+
+function formatTitle(title?: string) {
+  if (!title) {
+    return siteName
+  }
+
+  return title.includes(siteName) ? title : `${title} | ${siteName}`
+}
+
+export function useSeo(input: ReactiveSeoMetadata = {}) {
   watchEffect(() => {
     const rawTitle = toValue(input.title)
-    const title = rawTitle ? `${rawTitle} | ${siteName}` : siteName
+    const title = formatTitle(rawTitle)
     const description = toValue(input.description) || defaultDescription
-    const path = toValue(input.path) || '/'
-    const url = new URL(path, siteUrl).toString()
+    const path = normalizePath(toValue(input.path) || '/')
+    const canonical = toValue(input.canonical) || path
+    const url = new URL(canonical, siteUrl).toString()
     const imageValue = toValue(input.image)
     const image = imageValue ? new URL(imageValue, siteUrl).toString() : undefined
+    const imageAlt = toValue(input.imageAlt) || rawTitle || siteName
     const type = toValue(input.type) || 'website'
+    const noindex = Boolean(toValue(input.noindex))
 
     document.title = title
-    upsertCanonical(url)
+    if (noindex) {
+      removeCanonical()
+    } else {
+      upsertCanonical(url)
+    }
+    upsertFeedLink()
     upsertMeta('meta[name="description"]', { name: 'description', content: description })
+    upsertMeta('meta[name="robots"]', {
+      name: 'robots',
+      content: noindex ? 'noindex' : 'index,follow',
+    })
     upsertMeta('meta[property="og:site_name"]', { property: 'og:site_name', content: siteName })
     upsertMeta('meta[property="og:title"]', { property: 'og:title', content: title })
     upsertMeta('meta[property="og:description"]', {
@@ -71,7 +135,17 @@ export function useSeo(input: SeoInput = {}) {
 
     if (image) {
       upsertMeta('meta[property="og:image"]', { property: 'og:image', content: image })
+      upsertMeta('meta[property="og:image:alt"]', { property: 'og:image:alt', content: imageAlt })
       upsertMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: image })
+      upsertMeta('meta[name="twitter:image:alt"]', {
+        name: 'twitter:image:alt',
+        content: imageAlt,
+      })
+    } else {
+      removeElement('meta[property="og:image"]')
+      removeElement('meta[property="og:image:alt"]')
+      removeElement('meta[name="twitter:image"]')
+      removeElement('meta[name="twitter:image:alt"]')
     }
   })
 }

@@ -16,5 +16,6 @@ useSeo({
   title: page?.title || 'Page Not Found',
   description: page?.description,
   path: page?.path || '/about/',
+  canonical: page?.canonical,
 })
 </script>

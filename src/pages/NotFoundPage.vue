@@ -18,5 +18,7 @@ import { useSeo } from '@/lib/seo'
 useSeo({
   title: 'Page Not Found',
   description: 'The requested page could not be found.',
+  path: '/404.html',
+  noindex: true,
 })
 </script>

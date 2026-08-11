@@ -6,10 +6,13 @@ export type PostFrontmatter = {
   description?: string
   excerpt?: string
   date: string
+  updated?: string
   type?: 'post' | 'graphic-art'
   tags?: string[]
   image?: string
+  imageAlt?: string
   featuredImage?: string
+  canonical?: string
   externalUrl?: string
   schemaType?: string
   draft?: boolean
@@ -66,9 +69,10 @@ export const posts = Object.entries(files)
       ...data,
       description: data.description || data.excerpt || '',
       image: postPublicPath(slug, data.image || data.featuredImage),
+      imageAlt: data.imageAlt || data.title,
       slug,
       component: postModules[path].default,
-      path: `/posts/${slug}`,
+      path: `/posts/${slug}/`,
     }
   })
   .filter((post) => !post.draft)
