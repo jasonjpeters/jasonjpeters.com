@@ -707,18 +707,18 @@ function renderPostsIndex(posts) {
     <p class="max-w-2xl text-muted-foreground">Technical writing, project notes, graphic work, and practical writeups.</p>
   </section>
   <section class="mt-8" aria-labelledby="post-filters">
-    <h2 id="post-filters" class="terminal-title text-sm font-semibold uppercase tracking-normal">Filter</h2>
-    <div class="mt-3 flex flex-wrap gap-2">
-      <button type="button" class="border border-border bg-accent px-2.5 py-1 text-xs uppercase text-accent-foreground">All</button>
+    <label id="post-filters" class="terminal-title block text-sm font-semibold uppercase tracking-normal" for="tag-filter">Filter</label>
+    <select id="tag-filter" class="mt-3 w-full max-w-xs border border-border bg-background px-3 py-2 text-sm uppercase text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring">
+      <option value="">All posts</option>
       ${postTagCounts(posts)
         .map(
           (tag) =>
-            `<button type="button" class="border border-border bg-secondary px-2.5 py-1 text-xs uppercase text-secondary-foreground">${escapeHtml(
+            `<option value="${escapeHtml(tag.name)}">${escapeHtml(
               tag.name,
-            )} ${tag.count}</button>`,
+            )} (${tag.count})</option>`,
         )
         .join('')}
-    </div>
+    </select>
   </section>
   <section class="mt-8">
     ${renderPostList(posts)}

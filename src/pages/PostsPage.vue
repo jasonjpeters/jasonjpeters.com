@@ -7,31 +7,19 @@
   </section>
 
   <section class="mt-8" aria-labelledby="post-filters">
-    <h2 id="post-filters" class="terminal-title text-sm font-semibold uppercase tracking-normal">
+    <label id="post-filters" class="terminal-title block text-sm font-semibold uppercase tracking-normal" for="tag-filter">
       Filter
-    </h2>
-    <div class="mt-3 flex flex-wrap gap-2">
-      <button
-        type="button"
-        class="border border-border px-2.5 py-1 text-xs uppercase transition-colors hover:bg-accent hover:text-accent-foreground"
-        :class="selectedTag ? 'bg-secondary text-secondary-foreground' : 'bg-accent text-accent-foreground'"
-        :aria-pressed="!selectedTag"
-        @click="selectedTag = ''"
-      >
-        All
-      </button>
-      <button
-        v-for="tag in tags"
-        :key="tag.name"
-        type="button"
-        class="border border-border px-2.5 py-1 text-xs uppercase transition-colors hover:bg-accent hover:text-accent-foreground"
-        :class="selectedTag === tag.name ? 'bg-accent text-accent-foreground' : 'bg-secondary text-secondary-foreground'"
-        :aria-pressed="selectedTag === tag.name"
-        @click="selectedTag = tag.name"
-      >
-        {{ tag.name }} {{ tag.count }}
-      </button>
-    </div>
+    </label>
+    <select
+      id="tag-filter"
+      v-model="selectedTag"
+      class="mt-3 w-full max-w-xs border border-border bg-background px-3 py-2 text-sm uppercase text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      <option value="">All posts</option>
+      <option v-for="tag in tags" :key="tag.name" :value="tag.name">
+        {{ tag.name }} ({{ tag.count }})
+      </option>
+    </select>
   </section>
 
   <section class="mt-8">
