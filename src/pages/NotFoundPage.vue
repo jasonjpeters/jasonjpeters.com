@@ -1,5 +1,5 @@
 <template>
-  <section class="mx-auto max-w-2xl space-y-5 text-center">
+  <section class="space-y-5 text-center">
     <h1 class="text-4xl font-semibold tracking-normal">Page not found</h1>
     <p class="text-muted-foreground">
       The page may have moved, or the URL may not match a published post.

@@ -18,6 +18,10 @@ export function topicPath(slug: string) {
   return `/topics/${slug}/`
 }
 
+export function tagFilterPath(tag: string) {
+  return `/posts/?tag=${encodeURIComponent(tag)}`
+}
+
 const topicDefinitions = site.topicDefinitions
 
 const topicLookup = new Map<string, TopicDefinition>()
@@ -96,5 +100,12 @@ export function topicLinkForTag(tag: string, eligibleTopics: TopicSummary[]) {
   return {
     name: topic.name,
     path: topicPath(topic.slug),
+  }
+}
+
+export function linkForTag(tag: string, eligibleTopics: TopicSummary[]) {
+  return {
+    label: tag,
+    path: tagFilterPath(topicLinkForTag(tag, eligibleTopics)?.name || tag),
   }
 }

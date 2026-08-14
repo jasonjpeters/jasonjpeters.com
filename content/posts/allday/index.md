@@ -2,7 +2,7 @@
 title: Allday
 date: 2015-02-06
 type: graphic-art
-description: Logo and typeset work for a British Columbia based DJ.
+description: "Logo and typeset design for Allday, a British Columbia based DJ identity project."
 image: ./featured.jpg
 externalUrl: https://www.behance.net/gallery/23448075/Allday
 schemaType: CreativeWork

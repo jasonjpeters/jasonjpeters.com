@@ -29,6 +29,19 @@
     "Infrastructure",
     "Containers",
     "Virtualization",
+    "Data Migration",
+    "Pipeline Patterns",
+    "Graphic Art",
+    "Logo Design",
+    "Poster Design",
+    "Music Artwork",
+    "Event Flyers",
+    "Digital Art",
+    "Illustration",
+    "Snowboard Design",
+    "Billboard Design",
+    "GitHub",
+    "Social Media",
     "Technical Experiments"
   ],
   "topicPageMinimumPosts": 2,
@@ -110,6 +123,84 @@
       "name": "Virtualization",
       "aliases": ["vm", "vms", "virtual-machines", "virtualbox"],
       "description": "Virtualization notes about local VMs, lightweight infrastructure, and development environments."
+    },
+    {
+      "slug": "data-migration",
+      "name": "Data Migration",
+      "aliases": ["migration", "data import", "data migration"],
+      "description": "Articles about moving, transforming, importing, and normalizing data across applications and databases."
+    },
+    {
+      "slug": "pipeline-patterns",
+      "name": "Pipeline Patterns",
+      "aliases": ["pipeline", "pipelines", "pipeline pattern"],
+      "description": "Posts about composing software workflows from ordered, reusable processing stages."
+    },
+    {
+      "slug": "graphic-art",
+      "name": "Graphic Art",
+      "aliases": ["graphic design", "design work"],
+      "description": "Archived graphic art, visual design, and layout projects."
+    },
+    {
+      "slug": "logo-design",
+      "name": "Logo Design",
+      "aliases": ["logo", "logos", "identity design"],
+      "description": "Logo, wordmark, and identity design work from archived visual projects."
+    },
+    {
+      "slug": "poster-design",
+      "name": "Poster Design",
+      "aliases": ["poster", "posters"],
+      "description": "Poster artwork, event graphics, and layout-driven design projects."
+    },
+    {
+      "slug": "music-artwork",
+      "name": "Music Artwork",
+      "aliases": ["album cover", "cd cover", "cover art"],
+      "description": "Album covers, CD artwork, and music-related visual design projects."
+    },
+    {
+      "slug": "event-flyers",
+      "name": "Event Flyers",
+      "aliases": ["flyer", "flyers", "event flyer"],
+      "description": "Flyer and promotional artwork for events, music, and visual campaigns."
+    },
+    {
+      "slug": "digital-art",
+      "name": "Digital Art",
+      "aliases": ["digital art"],
+      "description": "Digital artwork, experimental visuals, and small illustration studies."
+    },
+    {
+      "slug": "illustration",
+      "name": "Illustration",
+      "aliases": ["illustration", "illustrations"],
+      "description": "Illustration projects, character work, and visual composition studies."
+    },
+    {
+      "slug": "snowboard-design",
+      "name": "Snowboard Design",
+      "aliases": ["snowboard", "snowboards"],
+      "description": "Snowboard surface graphics and board-scale visual design concepts."
+    },
+    {
+      "slug": "billboard-design",
+      "name": "Billboard Design",
+      "aliases": ["billboard", "billboards"],
+      "description": "Billboard and large-format visual communication projects."
+    },
+    {
+      "slug": "github",
+      "name": "GitHub",
+      "aliases": ["github", "git"],
+      "description": "Posts involving GitHub, Git workflows, source control, and developer tooling."
+    },
+    {
+      "slug": "social-media",
+      "name": "Social Media",
+      "aliases": ["twitter", "social"],
+      "description": "Posts involving social platforms, web culture, and developer-facing online tools."
     }
   ]
 }

@@ -206,6 +206,17 @@ function topicLinkForTag(tag) {
   }
 }
 
+function tagFilterPath(tag) {
+  return `/posts/?tag=${encodeURIComponent(tag)}`
+}
+
+function linkForTag(tag) {
+  return {
+    label: tag,
+    path: tagFilterPath(topicLinkForTag(tag)?.name || tag),
+  }
+}
+
 function extractMarkdownHeadings(content) {
   const seen = new Map()
   const headings = []
@@ -669,7 +680,7 @@ function renderRouteContent(route, posts) {
     return renderNotFound()
   }
 
-  return `<section class="prose-content mx-auto max-w-3xl">
+  return `<section class="prose-content">
     ${renderMarkdown(route.content, route.path)}
   </section>`
 }
@@ -770,7 +781,7 @@ function renderTopicsIndex() {
 }
 
 function renderTopic(topic) {
-  return `<section class="mx-auto max-w-3xl">
+  return `<section>
     ${renderBreadcrumbs(topic.breadcrumbs)}
     <header class="space-y-4 border-b border-border pb-8">
       <p class="terminal-title text-sm font-medium uppercase tracking-normal text-muted-foreground">Topic</p>
@@ -838,19 +849,13 @@ function renderTagList(tags = []) {
 }
 
 function renderTag(tag) {
-  const topic = topicLinkForTag(tag)
+  const link = linkForTag(tag)
 
-  if (topic) {
-    return `<a href="${escapeHtml(
-      topic.path,
-    )}" class="border border-border bg-secondary px-2 py-1 text-xs uppercase text-secondary-foreground hover:bg-accent hover:text-accent-foreground">${escapeHtml(
-      tag,
-    )}</a>`
-  }
-
-  return `<span class="border border-border bg-secondary px-2 py-1 text-xs uppercase text-secondary-foreground">${escapeHtml(
-    tag,
-  )}</span>`
+  return `<a href="${escapeHtml(
+    link.path,
+  )}" class="border border-border bg-secondary px-2 py-1 text-xs uppercase text-secondary-foreground hover:bg-accent hover:text-accent-foreground">${escapeHtml(
+    link.label,
+  )}</a>`
 }
 
 function renderBreadcrumbs(items = []) {
@@ -930,7 +935,7 @@ function renderRelatedPosts(post, posts) {
 }
 
 function renderPost(post, posts) {
-  return `<article class="${post.contentType === 'graphic-art' ? 'mx-auto max-w-4xl' : 'mx-auto max-w-3xl'}">
+  return `<article>
     ${renderBreadcrumbs(post.breadcrumbs)}
     <header class="mt-8 border-b border-border pb-8 ${
       post.contentType === 'graphic-art' ? 'grid gap-6 md:grid-cols-[1fr_16rem]' : ''
@@ -973,7 +978,7 @@ function renderPost(post, posts) {
 }
 
 function renderNotFound() {
-  return `<section class="mx-auto max-w-2xl space-y-5 text-center">
+  return `<section class="space-y-5 text-center">
     <h1 class="text-4xl font-semibold tracking-normal">Page not found</h1>
     <p class="text-muted-foreground">The page may have moved, or the URL may not match a published post.</p>
     <a href="/" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2">Go home</a>
@@ -1272,7 +1277,8 @@ async function validateGeneratedLinks() {
         continue
       }
 
-      const [pathname, fragment] = ref.split('#')
+      const [pathnameWithQuery, fragment] = ref.split('#')
+      const [pathname] = pathnameWithQuery.split('?')
 
       if (!pathname || !pathname.startsWith('/')) {
         continue

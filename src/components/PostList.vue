@@ -26,20 +26,13 @@
           </p>
           <div v-if="post.tags?.length" class="mt-3 flex flex-wrap gap-2">
             <RouterLink
-              v-for="tag in linkedTags(post)"
+              v-for="tag in tagLinks(post)"
               :key="tag.label"
               :to="tag.path"
               class="border border-border bg-secondary px-2 py-1 text-xs uppercase text-secondary-foreground hover:bg-accent hover:text-accent-foreground"
             >
               {{ tag.label }}
             </RouterLink>
-            <span
-              v-for="tag in plainTags(post)"
-              :key="tag"
-              class="border border-border bg-secondary px-2 py-1 text-xs uppercase text-secondary-foreground"
-            >
-              {{ tag }}
-            </span>
           </div>
         </div>
       </div>
@@ -50,7 +43,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import { posts as allPosts, type Post } from '@/lib/content/posts'
-import { eligibleTopicSummaries, topicLinkForTag } from '@/lib/topics'
+import { eligibleTopicSummaries, linkForTag } from '@/lib/topics'
 
 defineProps<{
   posts: Post[]
@@ -58,23 +51,8 @@ defineProps<{
 
 const topics = eligibleTopicSummaries(allPosts)
 
-function linkedTags(post: Post) {
-  return (post.tags || [])
-    .map((tag) => {
-      const topic = topicLinkForTag(tag, topics)
-
-      return topic
-        ? {
-            label: tag,
-            path: topic.path,
-          }
-        : undefined
-    })
-    .filter((tag): tag is { label: string; path: string } => Boolean(tag))
-}
-
-function plainTags(post: Post) {
-  return (post.tags || []).filter((tag) => !topicLinkForTag(tag, topics))
+function tagLinks(post: Post) {
+  return (post.tags || []).map((tag) => linkForTag(tag, topics))
 }
 
 function formatDate(date: string) {

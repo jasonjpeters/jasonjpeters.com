@@ -1,5 +1,5 @@
 <template>
-  <section v-if="topic" class="mx-auto max-w-3xl">
+  <section v-if="topic">
     <BreadcrumbNav
       :items="[
         { label: 'Home', path: '/' },

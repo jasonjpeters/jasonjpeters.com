@@ -1,5 +1,5 @@
 <template>
-  <section v-if="page" class="prose-content mx-auto max-w-3xl">
+  <section v-if="page" class="prose-content">
     <component :is="page.component" />
   </section>
   <NotFoundPage v-else />

@@ -1,5 +1,5 @@
 <template>
-  <article v-if="post" :class="post.type === 'graphic-art' ? 'mx-auto max-w-4xl' : 'mx-auto max-w-3xl'">
+  <article v-if="post">
     <BreadcrumbNav
       :items="[
         { label: 'Home', path: '/' },
@@ -29,20 +29,13 @@
         </p>
         <div v-if="post.tags?.length" class="mt-5 flex flex-wrap gap-2">
           <RouterLink
-            v-for="tag in linkedTags"
+            v-for="tag in tagLinks"
             :key="tag.label"
             :to="tag.path"
             class="border border-border bg-accent px-2.5 py-1 text-xs font-medium uppercase text-accent-foreground hover:bg-secondary hover:text-secondary-foreground"
           >
             {{ tag.label }}
           </RouterLink>
-          <span
-            v-for="tag in plainTags"
-            :key="tag"
-            class="border border-border bg-accent px-2.5 py-1 text-xs font-medium uppercase text-accent-foreground"
-          >
-            {{ tag }}
-          </span>
         </div>
       </div>
       <aside v-if="post.type === 'graphic-art' && post.externalUrl" class="terminal-panel h-fit p-4 text-sm">
@@ -90,7 +83,7 @@ import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 import PostList from '@/components/PostList.vue'
 import { getPost, getRelatedPosts, posts } from '@/lib/content/posts'
 import { useSeo } from '@/lib/seo'
-import { eligibleTopicSummaries, topicLinkForTag } from '@/lib/topics'
+import { eligibleTopicSummaries, linkForTag } from '@/lib/topics'
 import { Button } from '@/components/ui/button'
 import NotFoundPage from '@/pages/NotFoundPage.vue'
 
@@ -118,23 +111,7 @@ const formattedUpdatedDate = computed(() =>
 )
 const tocHeadings = computed(() => (post.value && post.value.headings.length >= 3 ? post.value.headings : []))
 const relatedPosts = computed(() => (post.value ? getRelatedPosts(post.value) : []))
-const linkedTags = computed(() =>
-  (post.value?.tags || [])
-    .map((tag) => {
-      const topic = topicLinkForTag(tag, eligibleTopics)
-
-      return topic
-        ? {
-            label: tag,
-            path: topic.path,
-          }
-        : undefined
-    })
-    .filter((tag): tag is { label: string; path: string } => Boolean(tag)),
-)
-const plainTags = computed(() =>
-  (post.value?.tags || []).filter((tag) => !topicLinkForTag(tag, eligibleTopics)),
-)
+const tagLinks = computed(() => (post.value?.tags || []).map((tag) => linkForTag(tag, eligibleTopics)))
 
 function postLabel(type?: string) {
   return type === 'graphic-art' ? 'Graphic Art' : 'Development'

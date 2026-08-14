@@ -2,7 +2,7 @@
 title: It's The Journey
 date: 2014-04-25
 type: graphic-art
-description: A digital doodle.
+description: "Digital doodle artwork archived as a small experimental illustration and visual composition."
 image: ./featured.jpg
 externalUrl: https://www.behance.net/gallery/16384379/Its-The-Journey
 schemaType: CreativeWork

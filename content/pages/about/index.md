@@ -1,6 +1,6 @@
 ---
 title: About
-description: About the work showcased on this site.
+description: "About Jason Peters, a web developer and graphic designer focused on practical websites, durable tools, Linux systems, and technical writing."
 ---
 
 # About
